@@ -1,0 +1,75 @@
+<div style="font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px;">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #ccc; padding-bottom: 10px;">
+    <h2>Panel de Administración</h2>
+    <button (click)="cerrarSesion()" style="background-color: #dc3545; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Cerrar Sesión</button>
+  </div>
+
+  <div style="background-color: #f8f9fa; border: 1px solid #ddd; padding: 20px; border-radius: 8px; margin-top: 20px;">
+    <h3>{{ editando ? 'Editar Producto' : 'Agregar Nuevo Producto' }}</h3>
+    
+    <!-- Usamos ngModel para capturar los datos automáticamente -->
+    <form (ngSubmit)="guardarProducto()" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+      
+      <input 
+        type="text" 
+        placeholder="Nombre del producto" 
+        [(ngModel)]="nuevoProducto.nombre" 
+        name="nombre" 
+        required
+        style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; flex: 1; min-width: 200px;"
+      >
+
+      <input 
+        type="number" 
+        placeholder="Precio" 
+        [(ngModel)]="nuevoProducto.precio" 
+        name="precio" 
+        required
+        style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 120px;"
+      >
+
+      <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        {{ editando ? 'Actualizar' : 'Guardar' }}
+      </button>
+
+      <button type="button" *ngIf="editando" (click)="limpiarFormulario()" style="background-color: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+        Cancelar
+      </button>
+
+    </form>
+  </div>
+
+  <!-- Tabla de Productos -->
+  <div style="margin-top: 30px;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead>
+        <tr style="background-color: #e9ecef;">
+          <th style="padding: 12px; border: 1px solid #ddd;">ID</th>
+          <th style="padding: 12px; border: 1px solid #ddd;">Nombre</th>
+          <th style="padding: 12px; border: 1px solid #ddd;">Precio</th>
+          <th style="padding: 12px; border: 1px solid #ddd;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let prod of productos">
+          <td style="padding: 10px; border: 1px solid #ddd; font-size: 12px; color: #666;">{{ prod.id }}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">{{ prod.nombre }}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">${{ prod.precio }}</td>
+          <td style="padding: 10px; border: 1px solid #ddd;">
+            <button (click)="editarProducto(prod)" style="background-color: #ffc107; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; margin-right: 5px;">Editar</button>
+            <button (click)="eliminarProducto(prod.id)" style="background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">Eliminar</button>
+          </td>
+        </tr>
+        
+        <!-- Si no hay productos -->
+        <tr *ngIf="productos.length === 0">
+          <td colspan="4" style="text-align: center; padding: 20px; color: #666;">
+            No hay productos registrados o cargando...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

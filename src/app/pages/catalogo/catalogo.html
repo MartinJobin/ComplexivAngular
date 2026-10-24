@@ -1,0 +1,21 @@
+<div class="header">
+  <h1>Catálogo de Productos</h1>
+  <button (click)="cerrarSesion()">Cerrar Sesión</button>
+</div>
+
+<div *ngIf="cargando" style="margin-top: 20px;">
+  <p>Cargando productos...</p>
+</div>
+
+<div *ngIf="errorMsg" style="color: red; margin-top: 20px;">
+  <p>{{ errorMsg }}</p>
+</div>
+
+<div *ngIf="!cargando && !errorMsg" class="lista-productos">
+  <p *ngIf="productos.length === 0">No hay productos en la base de datos.</p>
+  
+  <div class="producto-card" *ngFor="let producto of productos">
+    <h3>{{ producto.nombre }}</h3>
+    <p class="precio">Precio: ${{ producto.precio }}</p>
+  </div>
+</div>
